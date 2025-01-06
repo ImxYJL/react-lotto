@@ -3,7 +3,7 @@ import { LottoStore, LottoDisplay, WinningLottoPanel } from '../index';
 import { useState } from 'react';
 import { LOTTO_PRICE, LOTTO_INFO } from '../../constants/lotto';
 import useLottos from '../../../hooks/useLottos';
-import { WinningLotto } from '../../../types/lotto';
+import { lotto, WinningLotto } from '../../../types/lotto';
 
 const LottoGame = () => {
   const [money, setMoney] = useState(0);
@@ -20,7 +20,7 @@ const LottoGame = () => {
     setMoney(value);
   };
 
-  const setValidWinningLotto = (numbers: number[], bonusNumber: number) => {
+  const setValidWinningLotto = (numbers: lotto, bonusNumber: number) => {
     const totalNumber = [...numbers, bonusNumber];
 
     if (new Set(totalNumber).size !== totalNumber.length) {

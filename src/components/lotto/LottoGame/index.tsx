@@ -8,7 +8,7 @@ import { lotto, WinningLotto } from '../../../types/lotto';
 const LottoGame = () => {
   const [money, setMoney] = useState(0);
   const lottoCount = money / LOTTO_PRICE;
-  const { lottos = [] } = useLottos({ lottoCount });
+  const { lottos } = useLottos({ lottoCount });
   const [winningLotto, setWinningLotto] = useState<WinningLotto | null>(null);
 
   const setValidateMoney = (value: number) => {

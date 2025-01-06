@@ -7,7 +7,7 @@ interface UseLottosProps {
 }
 
 const useLottos = ({ lottoCount }: UseLottosProps) => {
-  const [lottos, setLottos] = useState<lotto[]>();
+  const [lottos, setLottos] = useState<lotto[]>([]);
 
   const getLotto = () => {
     const numbers = Array.from({ length: LOTTO_INFO.end }, (_, i) => i + 1); // 1~45 배열 생성

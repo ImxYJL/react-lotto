@@ -49,15 +49,17 @@ const LottoGame = () => {
   return (
     <S.LottoGame>
       <LottoStore money={money} setMoney={setValidateMoney} />
-      {isLottoGenerated && <LottoDisplay lottoCount={lottoCount} lottos={lottos} />}
       {isLottoGenerated && (
-        <WinningLottoPanel
-          money={money}
-          lottos={lottos}
-          validateWinningLotto={winningLotto}
-          setWinningNumber={setValidWinningLotto}
-          resetLottoGame={resetLottoGame}
-        />
+        <>
+          <LottoDisplay lottoCount={lottoCount} lottos={lottos} />
+          <WinningLottoPanel
+            money={money}
+            lottos={lottos}
+            validateWinningLotto={winningLotto}
+            setWinningNumber={setValidWinningLotto}
+            resetLottoGame={resetLottoGame}
+          />
+        </>
       )}
     </S.LottoGame>
   );

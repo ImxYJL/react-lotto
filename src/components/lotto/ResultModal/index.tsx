@@ -36,7 +36,7 @@ const ResultModal = ({ money, lottos, winningLotto, resetLottoGame, handleClose 
 
     // 나머지 등수 처리
     Object.entries(LOTTO_RESULT).forEach(([key, value]) => {
-      const rank = Number(key);
+      const rank = LOTTO_INFO.count - Number(key);
 
       if (value.match === count) {
         resultCountMap.set(rank, (resultCountMap.get(rank) || 0) + 1);
@@ -48,7 +48,7 @@ const ResultModal = ({ money, lottos, winningLotto, resetLottoGame, handleClose 
   const reversedMatchedCounts = [...resultCountMap.values()].reverse();
 
   const totalPrize = ranks.reduce((sum, rank) => {
-    return sum + LOTTO_RESULT[rank].prize * (resultCountMap.get(rank) || 0);
+    return sum + LOTTO_RESULT[LOTTO_INFO.count - rank].prize * (resultCountMap.get(rank) || 0);
   }, 0);
 
   const getProfitRate = () => {

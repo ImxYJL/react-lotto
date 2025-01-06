@@ -82,7 +82,9 @@ const WinningLottoPanel = ({
 
   return (
     <S.WinningLottoPanel>
-      <S.GuideMessage>{`지난 주 당첨번호 ${LOTTO_INFO.count}개와 보너스 번호 ${1}개를 입력해주세요.`}</S.GuideMessage>
+      <S.GuideMessage>
+        지난 주 당첨번호 {LOTTO_INFO.count}개와 보너스 번호 {1}개를 입력해주세요.
+      </S.GuideMessage>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '25px' }}>
         <InputContainer
           label="당첨 번호"

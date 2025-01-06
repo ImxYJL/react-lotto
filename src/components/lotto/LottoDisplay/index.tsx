@@ -10,7 +10,7 @@ interface LottoDisplayProps {
 const LottoDisplay = ({ lottoCount, lottos }: LottoDisplayProps) => {
   return (
     <S.LottoDisplay>
-      <S.GuideMessage>{`총 ${lottoCount}개를 구매하였습니다.`}</S.GuideMessage>
+      <S.GuideMessage>총 {lottoCount}개를 구매하였습니다.</S.GuideMessage>
       <S.LottoContainer>
         {lottos.map((lotto, idx) => (
           <Lotto key={`lotto-${idx}`} lotto={lotto} />

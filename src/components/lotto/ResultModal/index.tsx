@@ -87,9 +87,9 @@ const ResultModal = ({ money, lottos, winningLotto, resetLottoGame, handleClose 
             <tbody>
               {ranks.map((rank, index) => (
                 <tr key={rank}>
-                  <td>{`${LOTTO_RESULT[rank].match}개`}</td>
-                  <td>{`${LOTTO_RESULT[rank].prize.toLocaleString()}원`}</td>
-                  <td>{`${reversedMatchedCounts[index]}개`}</td>
+                  <td>{LOTTO_RESULT[rank].match}개</td>
+                  <td>{LOTTO_RESULT[rank].prize.toLocaleString()}원</td>
+                  <td>{reversedMatchedCounts[index]}개</td>
                 </tr>
               ))}
             </tbody>

@@ -52,9 +52,7 @@ const WinningLottoPanel = ({
 
   const handleWinningLottoInputChange = (index: number, value: string) => {
     setWinningLotto((prev) => {
-      const updatedLotto = [...prev];
-      updatedLotto[index] = value; // 해당 인덱스의 값을 업데이트
-      return updatedLotto;
+      return prev.map((num, idx) => (idx === index ? value : num));
     });
   };
 

@@ -4,7 +4,8 @@ import { Button } from '../../common';
 import { useState } from 'react';
 import { ResultModal, InputContainer } from '../index';
 import { lotto, WinningLotto } from '../../../types/lotto';
-
+import { checkIsEmptyInput } from '../../../utils/string';
+import { checkIsInteger } from '../../../utils/number';
 interface WinningLottoPanelProps {
   validateWinningLotto: WinningLotto | null;
   money: number;
@@ -34,21 +35,22 @@ const WinningLottoPanel = ({
   };
 
   const handleSubmit = () => {
-    const isCompleteInput = winningLottoInput.every((num) => num.trim() !== '') && bonusNumberInput.trim() !== '';
+    const isCompleteInput =
+      winningLottoInput.every((num) => !checkIsEmptyInput(num)) && !checkIsEmptyInput(bonusNumberInput);
 
     if (!isCompleteInput) {
       alert('로또 번호 입력을 완료해주세요.');
       return;
     }
 
-    const numericLottos = winningLottoInput.map(Number);
-    const numericBonusNumber = Number(bonusNumberInput);
-
-    const isValidNumber = numericLottos.every((num) => !isNaN(num)) && !isNaN(numericBonusNumber);
+    const isValidNumber = winningLottoInput.every((num) => checkIsInteger(num)) && checkIsInteger(bonusNumberInput);
     if (!isValidNumber) {
       alert('숫자만 입력해주세요.');
       return;
     }
+
+    const numericLottos = winningLottoInput.map(Number);
+    const numericBonusNumber = Number(bonusNumberInput);
 
     setWinningNumber(numericLottos, numericBonusNumber);
   };

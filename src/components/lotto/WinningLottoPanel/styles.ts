@@ -13,11 +13,3 @@ export const GuideMessage = styled.p`
 
   margin-bottom: 20px;
 `;
-
-
-export const NumberLabel = styled.label`
-  font-size: 12px;
-  text-align: left;
-
-  margin-bottom: 8px;
-`;

@@ -1,7 +1,8 @@
 import * as S from './styles';
 import { Button, Input } from '../../common/index';
 import { useEffect, useState } from 'react';
-
+import { checkIsInteger } from '../../../utils/number';
+import { checkIsEmptyInput } from '../../../utils/string';
 interface MoneyPanelProps {
   money: number;
   setMoney: (value: number) => void;
@@ -15,17 +16,17 @@ const MoneyPanel = ({ money, setMoney }: MoneyPanelProps) => {
   };
 
   const handlePurchaseClick = () => {
-    const numericValue = Number(inputValue);
-    if (inputValue === '') {
+    if (checkIsEmptyInput(inputValue)) {
       alert('금액을 입력해주세요.');
       return;
     }
 
-    if (/^\d+$/.test(inputValue) === false) {
-      alert('금액에는 숫자만 입력할 수 있습니다.');
+    if (!checkIsInteger(inputValue)) {
+      alert('숫자만 입력해주세요.');
       return;
     }
 
+    const numericValue = Number(inputValue);
     setMoney(numericValue);
   };
 

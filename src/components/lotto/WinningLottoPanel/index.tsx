@@ -37,16 +37,19 @@ interface WinningLottoPanelProps {
   lottos: lotto[];
   setWinningNumber: (numbers: number[], bonusNumber: number) => void;
   resetLottoGame: () => void;
+  isModalOpen: boolean;
+  closeModal: () => void;
 }
 
 const WinningLottoPanel = ({
   money,
   lottos,
   validateWinningLotto,
+  isModalOpen,
   resetLottoGame,
   setWinningNumber,
+  closeModal,
 }: WinningLottoPanelProps) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [winningLotto, setWinningLotto] = useState<string[]>(Array(LOTTO_INFO.count).fill(''));
   const [bonusNumber, setBonusNumber] = useState('');
 
@@ -61,11 +64,17 @@ const WinningLottoPanel = ({
     const numericBonusNumber = Number(bonusNumber);
     const totalNumber = [...numericLottos, numericBonusNumber];
 
-    if (totalNumber.some((num) => num === 0)) {
+    // 값 안넣으면 어차피 1 ~ 45조건에서 걸림
+    if (totalNumber.length !== 7) {
       // 값이 빈 경우
       alert('로또 번호 입력을 완료해주세요.');
       return;
     }
+    // if (totalNumber.some((num) => num === 0)) {
+    //   // 값이 빈 경우
+    //   alert('로또 번호 입력을 완료해주세요.');
+    //   return;
+    // }
 
     if (numericLottos.some(isNaN) || isNaN(numericBonusNumber)) {
       alert('숫자만 입력해주세요!');
@@ -73,11 +82,6 @@ const WinningLottoPanel = ({
     }
 
     setWinningNumber(numericLottos, numericBonusNumber);
-    setIsModalOpen(true);
-  };
-
-  const handleModalClose = () => {
-    setIsModalOpen(false);
   };
 
   return (
@@ -109,7 +113,7 @@ const WinningLottoPanel = ({
           money={money}
           winningLotto={validateWinningLotto}
           resetLottoGame={resetLottoGame}
-          handleClose={handleModalClose}
+          closeModal={closeModal}
         />
       )}
     </S.WinningLottoPanel>

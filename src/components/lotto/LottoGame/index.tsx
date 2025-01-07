@@ -1,6 +1,7 @@
 import * as S from './styles';
 import { LottoStore, LottoDisplay, WinningLottoPanel } from '../index';
 import { useState } from 'react';
+import useModal from '../../../hooks/useModalState';
 import { LOTTO_PRICE, LOTTO_INFO } from '../../constants/lotto';
 import useLottos from '../../../hooks/useLottos';
 import { lotto, WinningLotto } from '../../../types/lotto';
@@ -10,6 +11,7 @@ const LottoGame = () => {
   const lottoCount = money / LOTTO_PRICE;
   const { lottos } = useLottos({ lottoCount });
   const [winningLotto, setWinningLotto] = useState<WinningLotto | null>(null);
+  const {isModalOpen, openModal, closeModal} = useModal();
 
   const setValidateMoney = (value: number) => {
     if (value % LOTTO_PRICE !== 0) {
@@ -37,6 +39,8 @@ const LottoGame = () => {
       basic: [...numbers],
       bonus: bonusNumber,
     });
+
+    openModal();
   };
 
   const resetLottoGame = () => {
@@ -58,6 +62,8 @@ const LottoGame = () => {
             validateWinningLotto={winningLotto}
             setWinningNumber={setValidWinningLotto}
             resetLottoGame={resetLottoGame}
+            isModalOpen={isModalOpen}
+            closeModal={closeModal}
           />
         </>
       )}

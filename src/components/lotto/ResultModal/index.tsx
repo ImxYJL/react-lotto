@@ -7,11 +7,11 @@ interface ResultModalProps {
   money: number;
   lottos: lotto[];
   winningLotto: WinningLotto | null;
-  handleClose: () => void;
+  closeModal: () => void;
   resetLottoGame: () => void;
 }
 
-const ResultModal = ({ money, lottos, winningLotto, resetLottoGame, handleClose }: ResultModalProps) => {
+const ResultModal = ({ money, lottos, winningLotto, resetLottoGame, closeModal }: ResultModalProps) => {
   if (!winningLotto) return;
 
   const resultCountMap = new Map<number, number>(); // { 등수: 개수 }
@@ -63,7 +63,7 @@ const ResultModal = ({ money, lottos, winningLotto, resetLottoGame, handleClose 
           <S.Header>
             <button
               type="button"
-              onClick={handleClose}
+              onClick={closeModal}
               style={{
                 cursor: 'pointer',
                 marginRight: '28px',
@@ -99,7 +99,7 @@ const ResultModal = ({ money, lottos, winningLotto, resetLottoGame, handleClose 
           <Button
             onClick={() => {
               resetLottoGame();
-              handleClose();
+              closeModal();
             }}
             $style={{ fontWeight: 'bold', width: '90%', height: '45px', margin: '0 auto', borderRadius: '3px' }}
           >

@@ -60,24 +60,19 @@ const WinningLottoPanel = ({
   };
 
   const handleSubmit = () => {
-    const numericLottos = winningLotto.map(Number);
-    const numericBonusNumber = Number(bonusNumber);
-    const totalNumber = [...numericLottos, numericBonusNumber];
+    const isCompleteInput = winningLotto.every((num) => num.trim() !== '') && bonusNumber.trim() !== '';
 
-    // 값 안넣으면 어차피 1 ~ 45조건에서 걸림
-    if (totalNumber.length !== 7) {
-      // 값이 빈 경우
+    if (!isCompleteInput) {
       alert('로또 번호 입력을 완료해주세요.');
       return;
     }
-    // if (totalNumber.some((num) => num === 0)) {
-    //   // 값이 빈 경우
-    //   alert('로또 번호 입력을 완료해주세요.');
-    //   return;
-    // }
 
-    if (numericLottos.some(isNaN) || isNaN(numericBonusNumber)) {
-      alert('숫자만 입력해주세요!');
+    const numericLottos = winningLotto.map(Number);
+    const numericBonusNumber = Number(bonusNumber);
+
+    const isValidNumber = numericLottos.every((num) => !isNaN(num)) && !isNaN(numericBonusNumber);
+    if (!isValidNumber) {
+      alert('숫자만 입력해주세요.');
       return;
     }
 

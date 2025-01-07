@@ -1,35 +1,9 @@
 import * as S from './styles';
 import { LOTTO_INFO } from '../../constants/lotto';
-import { Input, Button } from '../../common';
-import React, { useState } from 'react';
-import { ResultModal } from '../index';
+import { Button } from '../../common';
+import { useState } from 'react';
+import { ResultModal, InputContainer } from '../index';
 import { lotto, WinningLotto } from '../../../types/lotto';
-
-interface InputContainerProps {
-  label: string;
-  count: number;
-  values: string | string[]; // TODO : 그냥 배열로 통일
-  onChange: (index: number, value: string) => void;
-  $inputStyle?: React.CSSProperties;
-}
-const InputContainer = ({ label, count, values, onChange, $inputStyle }: InputContainerProps) => {
-  return (
-    <S.NumberContainer>
-      <S.NumberLabel>{label}</S.NumberLabel>
-      <S.NumberInputContainer $inputStyle={$inputStyle}>
-        {Array.from({ length: count }).map((_, index) => (
-          <Input
-            key={index}
-            maxLength={2}
-            value={Array.isArray(values) ? values[index] : values}
-            onChange={(e) => onChange(index, e.target.value)}
-            $style={{ width: '35px', height: '30px', padding: '3px 5px', textAlign: 'center' }}
-          />
-        ))}
-      </S.NumberInputContainer>
-    </S.NumberContainer>
-  );
-};
 
 interface WinningLottoPanelProps {
   validateWinningLotto: WinningLotto | null;
@@ -50,8 +24,8 @@ const WinningLottoPanel = ({
   setWinningNumber,
   closeModal,
 }: WinningLottoPanelProps) => {
-  const [winningLotto, setWinningLotto] = useState<string[]>(Array(LOTTO_INFO.count).fill(''));
-  const [bonusNumber, setBonusNumber] = useState('');
+  const [winningLottoInput, setWinningLotto] = useState<string[]>(Array(LOTTO_INFO.count).fill(''));
+  const [bonusNumberInput, setBonusNumberInput] = useState('');
 
   const handleWinningLottoInputChange = (index: number, value: string) => {
     setWinningLotto((prev) => {
@@ -60,15 +34,15 @@ const WinningLottoPanel = ({
   };
 
   const handleSubmit = () => {
-    const isCompleteInput = winningLotto.every((num) => num.trim() !== '') && bonusNumber.trim() !== '';
+    const isCompleteInput = winningLottoInput.every((num) => num.trim() !== '') && bonusNumberInput.trim() !== '';
 
     if (!isCompleteInput) {
       alert('로또 번호 입력을 완료해주세요.');
       return;
     }
 
-    const numericLottos = winningLotto.map(Number);
-    const numericBonusNumber = Number(bonusNumber);
+    const numericLottos = winningLottoInput.map(Number);
+    const numericBonusNumber = Number(bonusNumberInput);
 
     const isValidNumber = numericLottos.every((num) => !isNaN(num)) && !isNaN(numericBonusNumber);
     if (!isValidNumber) {
@@ -88,14 +62,14 @@ const WinningLottoPanel = ({
         <InputContainer
           label="당첨 번호"
           count={LOTTO_INFO.count}
-          values={winningLotto}
+          values={winningLottoInput}
           onChange={handleWinningLottoInputChange}
         />
         <InputContainer
           label="보너스 번호"
           count={1}
-          values={[bonusNumber]}
-          onChange={(_, value) => setBonusNumber(value)}
+          values={[bonusNumberInput]}
+          onChange={(_, value) => setBonusNumberInput(value)}
           $inputStyle={{ justifyContent: 'flex-end' }}
         />
       </div>

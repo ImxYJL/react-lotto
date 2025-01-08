@@ -38,7 +38,7 @@ const LottoGame = () => {
         </>
       )}
 
-      {isModalOpen && (
+      {winningLotto !== null && isModalOpen && (
         <ResultModal
           lottos={lottos}
           money={money}

@@ -17,11 +17,11 @@ type LottoResultMap = {
 };
 
 export const LOTTO_RESULT: LottoResultMap = {
-  1: {
+  5: {
     match: 3,
     prize: 5000,
   },
-  2: {
+  4: {
     match: 4,
     prize: 50000,
   },
@@ -29,11 +29,11 @@ export const LOTTO_RESULT: LottoResultMap = {
     match: 5,
     prize: 1500000,
   },
-  4: {
+  2: {
     match: 5,
     prize: 30000000,
   },
-  5: {
+  1: {
     match: 6,
     prize: 200000000,
   },

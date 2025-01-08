@@ -3,7 +3,7 @@ import { MoneyPanel } from '../index';
 
 interface LottoStoreProps {
   money: number;
-  setMoney: (value: number) => void;
+  setMoney: (value: number) => boolean;
 }
 
 const LottoStore = ({ money, setMoney }: LottoStoreProps) => {

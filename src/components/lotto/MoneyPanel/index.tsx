@@ -9,29 +9,39 @@ interface MoneyPanelProps {
 }
 
 const MoneyPanel = ({ money, setMoney }: MoneyPanelProps) => {
-  const [inputValue, setInputValue] = useState('');
+  const [moneyInput, setMoneyInput] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+    setMoneyInput(e.target.value);
+  };
+
+  const validateInputValue = () => {
+    if (checkIsEmptyInput(moneyInput)) {
+      alert('금액을 입력해주세요.');
+      return false;
+    }
+
+    if (!checkIsInteger(moneyInput)) {
+      alert('숫자만 입력해주세요.');
+      return false;
+    }
+
+    return true;
+  };
+
+  const setValidMoney = () => {
+    if (validateInputValue()) {
+      const numericValue = Number(moneyInput);
+      setMoney(numericValue);
+    }
   };
 
   const handlePurchaseClick = () => {
-    if (checkIsEmptyInput(inputValue)) {
-      alert('금액을 입력해주세요.');
-      return;
-    }
-
-    if (!checkIsInteger(inputValue)) {
-      alert('숫자만 입력해주세요.');
-      return;
-    }
-
-    const numericValue = Number(inputValue);
-    setMoney(numericValue);
+    setValidMoney();
   };
 
   useEffect(() => {
-    if (money === 0) setInputValue('');
+    if (money === 0) setMoneyInput('');
   }, [money]);
 
   return (
@@ -40,7 +50,7 @@ const MoneyPanel = ({ money, setMoney }: MoneyPanelProps) => {
       <S.InputContainer>
         <Input
           type="number"
-          value={inputValue}
+          value={moneyInput}
           placeholder="금액"
           $style={{ width: '80%', height: 'auto' }}
           onChange={handleInputChange}

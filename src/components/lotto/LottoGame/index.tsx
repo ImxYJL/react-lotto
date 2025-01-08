@@ -1,54 +1,32 @@
 import * as S from './styles';
-import { LottoStore, LottoDisplay, WinningLottoPanel } from '../index';
-import { useState } from 'react';
+import { LottoStore, LottoDisplay, WinningLottoPanel, ResultModal } from '../index';
+
 import useModal from '../../../hooks/useModalState';
-import { LOTTO_PRICE, LOTTO_INFO } from '../../constants/lotto';
+import { LOTTO_PRICE } from '../../constants/lotto';
 import useLottos from '../../../hooks/useLottos';
-import { lotto, WinningLotto } from '../../../types/lotto';
+import useWinningLotto from '../../../hooks/useWinningLotto';
+import useMoney from '../../../hooks/useMoney';
 
 const LottoGame = () => {
-  const [money, setMoney] = useState(0);
+  const { money, initMoney, setValidateMoney } = useMoney();
   const lottoCount = money / LOTTO_PRICE;
+
   const { lottos } = useLottos({ lottoCount });
-  const [winningLotto, setWinningLotto] = useState<WinningLotto | null>(null);
-  const {isModalOpen, openModal, closeModal} = useModal();
 
-  const setValidateMoney = (value: number) => {
-    if (value % LOTTO_PRICE !== 0) {
-      alert('금액은 1000원 단위여야 합니다.');
-      return;
-    }
+  const { winningLotto, initWinningLotto, setValidWinningLotto } = useWinningLotto();
 
-    setMoney(value);
-  };
+  const { isModalOpen, openModal, closeModal } = useModal();
 
-  const setValidWinningLotto = (numbers: lotto, bonusNumber: number) => {
-    const totalNumber = [...numbers, bonusNumber];
+  const isLottoGenerated = money > 0 && lottos.length === lottoCount;
 
-    if (new Set(totalNumber).size !== totalNumber.length) {
-      alert('로또 번호는 중복될 수 없습니다.');
-      return;
-    }
-
-    if (!totalNumber.every((num) => num <= LOTTO_INFO.end && num >= LOTTO_INFO.start)) {
-      alert('로또 번호는 1 ~ 45 사이의 숫자입니다.');
-      return;
-    }
-
-    setWinningLotto({
-      basic: [...numbers],
-      bonus: bonusNumber,
-    });
-
-    openModal();
+  const handleWinningLottoSubmit = (isValid: boolean) => {
+    if (isValid) openModal();
   };
 
   const resetLottoGame = () => {
-    setMoney(0);
-    setWinningLotto(null);
+    initMoney();
+    initWinningLotto();
   };
-
-  const isLottoGenerated = money > 0 && lottos.length === lottoCount;
 
   return (
     <S.LottoGame>
@@ -56,16 +34,18 @@ const LottoGame = () => {
       {isLottoGenerated && (
         <>
           <LottoDisplay lottoCount={lottoCount} lottos={lottos} />
-          <WinningLottoPanel
-            money={money}
-            lottos={lottos}
-            validateWinningLotto={winningLotto}
-            setWinningNumber={setValidWinningLotto}
-            resetLottoGame={resetLottoGame}
-            isModalOpen={isModalOpen}
-            closeModal={closeModal}
-          />
+          <WinningLottoPanel onSubmit={handleWinningLottoSubmit} setWinningNumber={setValidWinningLotto} />
         </>
+      )}
+
+      {isModalOpen && (
+        <ResultModal
+          lottos={lottos}
+          money={money}
+          winningLotto={winningLotto}
+          resetLottoGame={resetLottoGame}
+          closeModal={closeModal}
+        />
       )}
     </S.LottoGame>
   );

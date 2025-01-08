@@ -56,6 +56,11 @@ const ResultModal = ({ money, lottos, winningLotto, resetLottoGame, closeModal }
     return Math.round(profitRate * 100) / 100;
   };
 
+  const handleModalClose = () => {
+    resetLottoGame();
+    closeModal();
+  };
+
   return (
     <Portal>
       <S.ModalBackground>
@@ -97,10 +102,7 @@ const ResultModal = ({ money, lottos, winningLotto, resetLottoGame, closeModal }
 
           <S.RateLabel>당신의 총 수익률은 {getProfitRate()}% 입니다.</S.RateLabel>
           <Button
-            onClick={() => {
-              resetLottoGame();
-              closeModal();
-            }}
+            onClick={handleModalClose}
             $style={{ fontWeight: 'bold', width: '90%', height: '45px', margin: '0 auto', borderRadius: '3px' }}
           >
             다시 시작하기

@@ -5,7 +5,7 @@ import { checkIsInteger } from '../../../utils/number';
 import { checkIsEmptyInput } from '../../../utils/string';
 interface MoneyPanelProps {
   money: number;
-  setMoney: (value: number) => void;
+  setMoney: (value: number) => boolean;
 }
 
 const MoneyPanel = ({ money, setMoney }: MoneyPanelProps) => {
@@ -29,15 +29,17 @@ const MoneyPanel = ({ money, setMoney }: MoneyPanelProps) => {
     return true;
   };
 
-  const setValidMoney = () => {
-    if (validateInputValue()) {
-      const numericValue = Number(moneyInput);
-      setMoney(numericValue);
-    }
+  const getMoneyValidation = (): boolean => {
+    const numericValue = Number(moneyInput);
+    const isValidMoney = setMoney(numericValue);
+
+    return isValidMoney;
   };
 
   const handlePurchaseClick = () => {
-    setValidMoney();
+    if (!validateInputValue()) return;
+
+    getMoneyValidation();
   };
 
   useEffect(() => {

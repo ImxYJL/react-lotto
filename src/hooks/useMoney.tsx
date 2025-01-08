@@ -18,8 +18,11 @@ const useMoney = () => {
     setMoney(0);
   };
 
-  const setValidateMoney = (value: number) => {
-    if (validateMoney()) setMoney(value);
+  const setValidateMoney = (value: number): boolean => {
+    const isValidMoney = validateMoney();
+    if (isValidMoney) setMoney(value);
+
+    return isValidMoney;
   };
 
   return { money, initMoney, setValidateMoney };
